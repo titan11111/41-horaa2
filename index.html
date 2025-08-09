@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>家の見取り図 3D — 一人称探索ホラー</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ローディング画面 -->
+  <div id="loading" class="loading-screen">
+    <div class="loading-content">
+      <h2>家の見取り図 3D</h2>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+      <p>3D世界を構築中...</p>
+    </div>
+  </div>
+
+  <!-- メイン画面 -->
+  <div class="wrap" id="gameWrap">
+    <!-- ヘッダー部分 -->
+    <header>
+      <h1>家の見取り図 3D <span style="font-weight:400; opacity:.6">— 図面は更新されます</span></h1>
+      <div class="status">章: <span id="chapter">1</span> / 不一致度: <span id="desync">0%</span></div>
+    </header>
+
+    <!-- 左側: 3Dビュー -->
+    <section class="main-3d">
+      <canvas id="game3d" width="800" height="600"></canvas>
+      
+      <!-- 3D操作UI -->
+      <div class="controls-overlay">
+        <div class="crosshair">+</div>
+        <div class="movement-hint">
+          <div class="hint-text">WASD: 移動 | マウス: 視点 | クリック: 調べる</div>
+        </div>
+      </div>
+
+      <!-- インタラクション表示 -->
+      <div id="interaction" class="interaction-prompt">
+        <span id="interactionText">Eキーで調べる</span>
+      </div>
+    </section>
+
+    <!-- 右側: 見取り図エリア -->
+    <aside class="map">
+      <h2>家の見取り図</h2>
+      <canvas id="blueprint" width="500" height="360" aria-label="見取り図"></canvas>
+      <div class="legend">
+        <span><i class="chip" style="background:#14202b"></i> 既知の部屋</span>
+        <span><i class="chip" style="background:#243447"></i> 不一致の疑い</span>
+        <span><i class="chip" style="background:#5b1a16"></i> 赤い部屋</span>
+        <span><i class="chip" style="background:#1e2f22"></i> あなた</span>
+      </div>
+      <div class="inventory">
+        <div>所持：<span id="inventory">古い見取り図</span></div>
+        <div id="clock">00:00</div>
+      </div>
+      
+      <!-- 現在の部屋情報 -->
+      <div class="room-info">
+        <h3 id="roomTitle">玄関</h3>
+        <p id="roomDescription">湿った靴の匂い。傘立てには折れた骨のような傘。</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 画面効果 -->
+  <div class="crt"></div>
+
+  <!-- メッセージ表示用 -->
+  <div id="toast" class="toast" role="status" aria-live="assertive"></div>
+
+  <!-- JavaScriptファイルを読み込み -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
