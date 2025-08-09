@@ -261,18 +261,63 @@
       if (document.pointerLockElement === elements.game3d) {
         mouseX += e.movementX * 0.002;
         mouseY += e.movementY * 0.002;
-        
+
         mouseY = Math.max(-Math.PI/2, Math.min(Math.PI/2, mouseY));
-        
+
         camera.rotation.set(mouseY, mouseX, 0);
       }
     });
-    
+
     elements.game3d.addEventListener('click', () => {
       if (currentInteractable) {
         interactWithObject(currentInteractable);
       }
     });
+
+    // タッチ視点制御
+    let touchX = 0, touchY = 0;
+    elements.game3d.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        touchX = e.touches[0].clientX;
+        touchY = e.touches[0].clientY;
+      }
+    }, { passive: false });
+
+    elements.game3d.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1) {
+        const dx = e.touches[0].clientX - touchX;
+        const dy = e.touches[0].clientY - touchY;
+        touchX = e.touches[0].clientX;
+        touchY = e.touches[0].clientY;
+        mouseX += dx * 0.002;
+        mouseY -= dy * 0.002;
+        mouseY = Math.max(-Math.PI/2, Math.min(Math.PI/2, mouseY));
+        camera.rotation.set(mouseY, mouseX, 0);
+      }
+      e.preventDefault();
+    }, { passive: false });
+
+    // モバイル移動ボタン
+    document.querySelectorAll('.mobile-controls button[data-key]').forEach(btn => {
+      btn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keys[btn.dataset.key] = true;
+      }, { passive: false });
+      btn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keys[btn.dataset.key] = false;
+      });
+    });
+
+    const mobileInteract = document.getElementById('mobileInteract');
+    if (mobileInteract) {
+      mobileInteract.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        if (currentInteractable) {
+          interactWithObject(currentInteractable);
+        }
+      }, { passive: false });
+    }
   }
 
   // ========= プレイヤー移動処理 =========
