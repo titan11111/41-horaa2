@@ -249,14 +249,18 @@
     });
     
     // マウス制御
-    let isMouseDown = false;
     let mouseX = 0, mouseY = 0;
-    
+
     elements.game3d.addEventListener('mousedown', (e) => {
-      isMouseDown = true;
+      e.preventDefault();
       elements.game3d.requestPointerLock();
+
+      // ポインターロックのトリガーと同時にクリック判定を行う
+      if (currentInteractable) {
+        interactWithObject(currentInteractable);
+      }
     });
-    
+
     document.addEventListener('mousemove', (e) => {
       if (document.pointerLockElement === elements.game3d) {
         mouseX += e.movementX * 0.002;
@@ -265,12 +269,6 @@
         mouseY = Math.max(-Math.PI/2, Math.min(Math.PI/2, mouseY));
 
         camera.rotation.set(mouseY, mouseX, 0);
-      }
-    });
-
-    elements.game3d.addEventListener('click', () => {
-      if (currentInteractable) {
-        interactWithObject(currentInteractable);
       }
     });
 
