@@ -309,8 +309,53 @@ canvas#blueprint {
 }
 
 .toast.show {
-  opacity: 1; 
+  opacity: 1;
   transform: translateX(-50%) translateY(10px);
+}
+
+/* ========= モバイル用操作ボタン ========= */
+.mobile-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 50;
+}
+
+.dpad {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.dpad button {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--fg);
+  font-size: 20px;
+}
+
+.dpad button.up { top: 0; left: 40px; }
+.dpad button.left { top: 40px; left: 0; }
+.dpad button.down { top: 80px; left: 40px; }
+.dpad button.right { top: 40px; left: 80px; }
+
+.mobile-controls button.interact {
+  width: 60px;
+  height: 60px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--fg);
+  font-size: 14px;
 }
 
 /* ========= スマホ対応（レスポンシブ） ========= */
@@ -332,9 +377,8 @@ canvas#blueprint {
     height: 200px;
   }
   
-  .movement-hint .hint-text {
-    font-size: 10px;
-  }
+  .movement-hint { display: none; }
+  .mobile-controls { display: flex; }
   
   .legend {
     font-size: 10px;
@@ -359,16 +403,11 @@ canvas#blueprint {
     padding: 8px;
     gap: 12px;
   }
-  
+
   .main-3d {
     min-height: 300px;
   }
-  
-  .movement-hint {
-    bottom: 10px;
-    padding: 6px 12px;
-  }
-  
+
   canvas#blueprint {
     height: 150px;
   }
